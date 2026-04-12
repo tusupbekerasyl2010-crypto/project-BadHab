@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>BadHab</title>
+
+<style>
+body{
+    margin:0;
+    background:#e6ecff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family:Arial;
+}
+
+.phone{
+    width:340px;
+    height:680px;
+    background:black;
+    border-radius:45px;
+    padding:15px;
+}
+
+.screen{
+    background:white;
+    height:100%;
+    border-radius:35px;
+    padding:20px;
+    box-sizing:border-box;
+    overflow:auto;
+}
+
+h2{
+    text-align:center;
+    margin-top:0;
+}
+
+.section{
+    margin-bottom:20px;
+}
+
+.habit{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#f3f3f3;
+    padding:10px;
+    border-radius:12px;
+    margin:8px 0;
+}
+
+.habit input{
+    transform:scale(1.3);
+}
+
+.mood button, .relapse button{
+    padding:6px 10px;
+    margin:3px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.mood button{
+    background:#dbe4ff;
+}
+
+.mood button.active{
+    background:#4caf50;
+    color:white;
+}
+
+.relapse button{
+    background:#ffd6d6;
+}
+
+.relapse button.active{
+    background:#ff4d4d;
+    color:white;
+}
+
+.message{
+    margin-top:10px;
+    padding:10px;
+    border-radius:10px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.advice{
+    background:#e0ffe0;
+    padding:10px;
+    border-radius:12px;
+    margin:8px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+<div class="screen">
+
+<h2>BadHab</h2>
+
+<div class="section">
+    <strong>Today's Habits</strong>
+
+    <div class="habit">
+        Phone Overuse
+        <input type="checkbox">
+    </div>
+
+    <div class="habit">
+        Late Sleep
+        <input type="checkbox">
+    </div>
+
+    <div class="habit">
+        Procrastination
+        <input type="checkbox">
+    </div>
+</div>
+
+<div class="section mood">
+    <strong>Mood</strong><br>
+    <button onclick="setMood(this,'good')">😄 Good</button>
+    <button onclick="setMood(this,'okay')">😐 Okay</button>
+    <button onclick="setMood(this,'bad')">😔 Bad</button>
+
+    <div id="moodMessage" class="message"></div>
+</div>
+
+<div class="section relapse">
+    <strong>Relapse?</strong><br>
+    <button onclick="setRelapse(this,'yes')">Yes</button>
+    <button onclick="setRelapse(this,'no')">No</button>
+
+    <div id="relapseMessage" class="message"></div>
+</div>
+
+<div class="section">
+    <strong>Advice</strong>
+
+    <div class="advice">Replace scrolling with 5 minutes of reading.</div>
+    <div class="advice">Go for a 10-minute walk when stressed.</div>
+    <div class="advice">Put your phone away 1 hour before sleep.</div>
+    <div class="advice">Break big tasks into small steps.</div>
+    <div class="advice">Reward yourself for small progress.</div>
+</div>
+
+</div>
+</div>
+
+<script>
+function setMood(button, mood){
+    let buttons = document.querySelectorAll(".mood button");
+    buttons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    let message = document.getElementById("moodMessage");
+
+    if(mood === "good"){
+        message.innerHTML = "We are happy for you! Keep going! 🚀";
+        message.style.background = "#d4ffd4";
+    }
+    else if(mood === "okay"){
+        message.innerHTML = "Neutral days are normal. Small progress still counts 👍";
+        message.style.background = "#fff4cc";
+    }
+    else if(mood === "bad"){
+        message.innerHTML = "Bad days happen. Take a breath and try one small positive action 💛";
+        message.style.background = "#ffd6d6";
+    }
+}
+
+function setRelapse(button, answer){
+    let buttons = document.querySelectorAll(".relapse button");
+    buttons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    let message = document.getElementById("relapseMessage");
+
+    if(answer === "yes"){
+        message.innerHTML = "It's okay. Learn from it and try again tomorrow 💪";
+        message.style.background = "#ffd6d6";
+    }
+    else{
+        message.innerHTML = "Great job staying consistent! 🔥";
+        message.style.background = "#d4ffd4";
+    }
+}
+</script>
+
+</body>
+</html>
