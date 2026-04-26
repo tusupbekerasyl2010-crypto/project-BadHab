@@ -2,98 +2,93 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BadHab</title>
+<title>BadHab Pro</title>
 
 <style>
 body{
     margin:0;
-    background:#e6ecff;
+    background:linear-gradient(120deg,#667eea,#764ba2);
     display:flex;
     justify-content:center;
     align-items:center;
     height:100vh;
-    font-family:Arial;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
 .phone{
-    width:340px;
-    height:680px;
-    background:black;
-    border-radius:45px;
-    padding:15px;
+    width:370px;
+    height:740px;
+    border-radius:40px;
+    padding:12px;
+    background:rgba(0,0,0,0.4);
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
 }
 
 .screen{
-    background:white;
     height:100%;
-    border-radius:35px;
-    padding:20px;
-    box-sizing:border-box;
+    border-radius:30px;
+    padding:18px;
     overflow:auto;
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.1);
+    color:white;
 }
 
 h2{
     text-align:center;
-    margin-top:0;
+    margin:5px 0 15px;
+    font-weight:600;
 }
 
-.section{
-    margin-bottom:20px;
+.card{
+    background:rgba(255,255,255,0.12);
+    border-radius:18px;
+    padding:14px;
+    margin-bottom:14px;
 }
 
 .habit{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    background:#f3f3f3;
-    padding:10px;
-    border-radius:12px;
     margin:8px 0;
 }
 
-.habit input{
-    transform:scale(1.3);
-}
-
-.mood button, .relapse button{
+button{
+    border:none;
+    border-radius:12px;
     padding:6px 10px;
     margin:3px;
-    border:none;
-    border-radius:10px;
     cursor:pointer;
-}
-
-.mood button{
-    background:#dbe4ff;
-}
-
-.mood button.active{
-    background:#4caf50;
+    background:rgba(255,255,255,0.2);
     color:white;
 }
 
-.relapse button{
-    background:#ffd6d6;
-}
-
-.relapse button.active{
-    background:#ff4d4d;
-    color:white;
+.active{
+    background:white;
+    color:black;
 }
 
 .message{
     margin-top:10px;
-    padding:10px;
+    padding:8px;
     border-radius:10px;
-    font-weight:bold;
     text-align:center;
+    font-size:14px;
 }
 
 .advice{
-    background:#e0ffe0;
+    background:rgba(255,255,255,0.2);
     padding:10px;
     border-radius:12px;
-    margin:8px 0;
+    margin:6px 0;
+    font-size:14px;
+}
+
+canvas{
+    width:100%;
+    height:140px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.1);
 }
 </style>
 </head>
@@ -103,95 +98,141 @@ h2{
 <div class="phone">
 <div class="screen">
 
-<h2>BadHab</h2>
+<h2>BadHab Pro</h2>
 
-<div class="section">
-    <strong>Today's Habits</strong>
-
-    <div class="habit">
-        Phone Overuse
-        <input type="checkbox">
-    </div>
-
-    <div class="habit">
-        Late Sleep
-        <input type="checkbox">
-    </div>
-
-    <div class="habit">
-        Procrastination
-        <input type="checkbox">
-    </div>
+<!-- HABITS -->
+<div class="card">
+<b>Today's Habits</b>
+<div class="habit">Phone Overuse <input type="checkbox"></div>
+<div class="habit">Late Sleep <input type="checkbox"></div>
+<div class="habit">Lack of Focus <input type="checkbox"></div>
 </div>
 
-<div class="section mood">
-    <strong>Mood</strong><br>
-    <button onclick="setMood(this,'good')">😄 Good</button>
-    <button onclick="setMood(this,'okay')">😐 Okay</button>
-    <button onclick="setMood(this,'bad')">😔 Bad</button>
+<!-- MOOD -->
+<div class="card">
+<b>Mood</b><br>
+<button onclick="setMood(this,2)">😄</button>
+<button onclick="setMood(this,1)">😐</button>
+<button onclick="setMood(this,0)">😔</button>
 
-    <div id="moodMessage" class="message"></div>
+<div id="moodMsg" class="message"></div>
 </div>
 
-<div class="section relapse">
-    <strong>Relapse?</strong><br>
-    <button onclick="setRelapse(this,'yes')">Yes</button>
-    <button onclick="setRelapse(this,'no')">No</button>
-
-    <div id="relapseMessage" class="message"></div>
+<!-- GRAPH -->
+<div class="card">
+<b>Mood Progress</b>
+<canvas id="chart"></canvas>
 </div>
 
-<div class="section">
-    <strong>Advice</strong>
+<!-- STYLE -->
+<div class="card">
+<b>Coaching Style</b><br>
+<button onclick="setStyle(this,'soft')">Soft</button>
+<button onclick="setStyle(this,'strict')">Strict</button>
+<button onclick="setStyle(this,'real')">Real Talk</button>
+</div>
 
-    <div class="advice">Replace scrolling with 5 minutes of reading.</div>
-    <div class="advice">Go for a 10-minute walk when stressed.</div>
-    <div class="advice">Put your phone away 1 hour before sleep.</div>
-    <div class="advice">Break big tasks into small steps.</div>
-    <div class="advice">Reward yourself for small progress.</div>
+<!-- ADVICE -->
+<div class="card">
+<b>Advice</b>
+<div id="advice"></div>
 </div>
 
 </div>
 </div>
 
 <script>
-function setMood(button, mood){
-    let buttons = document.querySelectorAll(".mood button");
-    buttons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
+let moods = JSON.parse(localStorage.getItem("moods")) || [];
+let style = "soft";
 
-    let message = document.getElementById("moodMessage");
+function setMood(btn,val){
+    document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
 
-    if(mood === "good"){
-        message.innerHTML = "We are happy for you! Keep going! 🚀";
-        message.style.background = "#d4ffd4";
-    }
-    else if(mood === "okay"){
-        message.innerHTML = "Neutral days are normal. Small progress still counts 👍";
-        message.style.background = "#fff4cc";
-    }
-    else if(mood === "bad"){
-        message.innerHTML = "Bad days happen. Take a breath and try one small positive action 💛";
-        message.style.background = "#ffd6d6";
-    }
+    moods.push(val);
+    localStorage.setItem("moods",JSON.stringify(moods));
+
+    let msg=document.getElementById("moodMsg");
+
+    if(val===2) msg.innerHTML="You're on a roll 🚀";
+    if(val===1) msg.innerHTML="It's a normal day — keep going";
+    if(val===0) msg.innerHTML="Tough day. Just take one small step";
+
+    draw();
+    generateAdvice();
 }
 
-function setRelapse(button, answer){
-    let buttons = document.querySelectorAll(".relapse button");
-    buttons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-
-    let message = document.getElementById("relapseMessage");
-
-    if(answer === "yes"){
-        message.innerHTML = "It's okay. Learn from it and try again tomorrow 💪";
-        message.style.background = "#ffd6d6";
-    }
-    else{
-        message.innerHTML = "Great job staying consistent! 🔥";
-        message.style.background = "#d4ffd4";
-    }
+function setStyle(btn,s){
+    document.querySelectorAll(".card:nth-child(4) button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    style=s;
+    generateAdvice();
 }
+
+function generateAdvice(){
+    let list=[];
+
+    if(style==="soft"){
+        list=[
+            "Take it slow — small steps matter 🌱",
+            "Rest for 5 minutes, you're not a machine",
+            "Just start, no pressure",
+            "You're already doing better than yesterday",
+            "Breathe — stress will pass",
+            "Focus on one task only"
+        ];
+    }
+
+    if(style==="strict"){
+        list=[
+            "Stop delaying. Start now.",
+            "Discipline beats motivation",
+            "You either control yourself or you don't",
+            "Pick one task. Finish it.",
+            "No mood? Doesn't matter.",
+            "Tired? Work slower, but don't stop"
+        ];
+    }
+
+    if(style==="real"){
+        list=[
+            "Do 5 minutes, then decide",
+            "Put your phone away — instant upgrade",
+            "You're not lazy, you're overloaded",
+            "Your brain wants easy — don't give it that",
+            "Start with a 3-minute timer",
+            "It's hard now, easier later"
+        ];
+    }
+
+    let box=document.getElementById("advice");
+    box.innerHTML="";
+
+    list.forEach(a=>{
+        box.innerHTML += "<div class='advice'>"+a+"</div>";
+    });
+}
+
+function draw(){
+    let c=document.getElementById("chart");
+    let ctx=c.getContext("2d");
+
+    ctx.clearRect(0,0,c.width,c.height);
+
+    ctx.beginPath();
+    ctx.moveTo(0,140);
+
+    moods.forEach((m,i)=>{
+        let x=i*30;
+        let y=140-(m*40);
+        ctx.lineTo(x,y);
+    });
+
+    ctx.stroke();
+}
+
+draw();
+generateAdvice();
 </script>
 
 </body>
