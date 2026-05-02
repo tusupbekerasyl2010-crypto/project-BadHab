@@ -1,238 +1,240 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BadHab Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bad Habits Tracker</title>
 
 <style>
-body{
-    margin:0;
-    background:linear-gradient(120deg,#667eea,#764ba2);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
 }
 
-.phone{
-    width:370px;
-    height:740px;
-    border-radius:40px;
-    padding:12px;
-    background:rgba(0,0,0,0.4);
-    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+.container {
+  padding: 20px;
 }
 
-.screen{
-    height:100%;
-    border-radius:30px;
-    padding:18px;
-    overflow:auto;
-    backdrop-filter:blur(20px);
-    background:rgba(255,255,255,0.1);
-    color:white;
+h1 {
+  text-align: center;
 }
 
-h2{
-    text-align:center;
-    margin:5px 0 15px;
-    font-weight:600;
+.card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 15px;
 }
 
-.card{
-    background:rgba(255,255,255,0.12);
-    border-radius:18px;
-    padding:14px;
-    margin-bottom:14px;
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-.habit{
-    display:flex;
-    justify-content:space-between;
-    margin:8px 0;
+.success { background: #22c55e; }
+.fail { background: #ef4444; }
+.quote-btn { background: #3b82f6; }
+
+select {
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
 }
 
-button{
-    border:none;
-    border-radius:12px;
-    padding:6px 10px;
-    margin:3px;
-    cursor:pointer;
-    background:rgba(255,255,255,0.2);
-    color:white;
+.chart-container {
+  overflow-x: auto;
 }
 
-.active{
-    background:white;
-    color:black;
+canvas {
+  background: #111827;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
-.message{
-    margin-top:10px;
-    padding:8px;
-    border-radius:10px;
-    text-align:center;
-    font-size:14px;
-}
-
-.advice{
-    background:rgba(255,255,255,0.2);
-    padding:10px;
-    border-radius:12px;
-    margin:6px 0;
-    font-size:14px;
-}
-
-canvas{
-    width:100%;
-    height:140px;
-    border-radius:12px;
-    background:rgba(255,255,255,0.1);
+.mood button {
+  font-size: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="phone">
-<div class="screen">
+<div class="container">
+  <h1>Bad Habits Tracker</h1>
 
-<h2>BadHab Pro</h2>
+  <div class="card">
+    <h3>Select Habit</h3>
+    <select id="habit">
+      <option>Smoking</option>
+      <option>Phone addiction</option>
+      <option>Fast food</option>
+      <option>Gaming</option>
+      <option>Sweets</option>
+      <option>Caffeine</option>
+      <option>Procrastination</option>
+    </select>
+  </div>
 
-<!-- HABITS -->
-<div class="card">
-<b>Today's Habits</b>
-<div class="habit">Phone Overuse <input type="checkbox"></div>
-<div class="habit">Late Sleep <input type="checkbox"></div>
-<div class="habit">Lack of Focus <input type="checkbox"></div>
-</div>
+  <div class="card">
+    <h3>Current streak: <span id="streak">0</span> days</h3>
+    <button class="success" onclick="successDay()">I resisted</button>
+    <button class="fail" onclick="failDay()">I failed</button>
+  </div>
 
-<!-- MOOD -->
-<div class="card">
-<b>Mood</b><br>
-<button onclick="setMood(this,2)">😄</button>
-<button onclick="setMood(this,1)">😐</button>
-<button onclick="setMood(this,0)">😔</button>
+  <div class="card mood">
+    <h3>How do you feel?</h3>
+    <button onclick="setMood('good')">😀</button>
+    <button onclick="setMood('ok')">😐</button>
+    <button onclick="setMood('angry')">😡</button>
+    <button onclick="setMood('tired')">😩</button>
+    <button onclick="setMood('bad')">😔</button>
+  </div>
 
-<div id="moodMsg" class="message"></div>
-</div>
+  <div class="card">
+    <h3>Progress Chart</h3>
+    <div class="chart-container">
+      <canvas id="chart" height="200"></canvas>
+    </div>
+  </div>
 
-<!-- GRAPH -->
-<div class="card">
-<b>Mood Progress</b>
-<canvas id="chart"></canvas>
-</div>
+  <div class="card">
+    <h3>Motivation</h3>
+    <p id="quote"></p>
+    <button class="quote-btn" onclick="changeQuote()">New Quote</button>
+  </div>
 
-<!-- STYLE -->
-<div class="card">
-<b>Coaching Style</b><br>
-<button onclick="setStyle(this,'soft')">Soft</button>
-<button onclick="setStyle(this,'strict')">Strict</button>
-<button onclick="setStyle(this,'real')">Real Talk</button>
-</div>
-
-<!-- ADVICE -->
-<div class="card">
-<b>Advice</b>
-<div id="advice"></div>
-</div>
-
-</div>
 </div>
 
 <script>
+let streak = Number(localStorage.getItem("streak")) || 0;
+let history = JSON.parse(localStorage.getItem("history")) || [];
 let moods = JSON.parse(localStorage.getItem("moods")) || [];
-let style = "soft";
 
-function setMood(btn,val){
-    document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
+document.getElementById("streak").innerText = streak;
 
-    moods.push(val);
-    localStorage.setItem("moods",JSON.stringify(moods));
+const quotes = [
+  "Discipline equals freedom — Jocko Willink",
+  "We are what we repeatedly do — Aristotle",
+  "The only way out is through — Robert Frost",
+  "He who conquers himself is strongest — Confucius",
+  "It does not matter how slowly you go as long as you do not stop — Confucius",
+  "Success is the sum of small efforts repeated daily — Robert Collier",
+  "Do what is hard now so life can be easy later — Unknown",
+  "Your future depends on what you do today — Mahatma Gandhi",
+  "Motivation gets you going, discipline keeps you growing — John C. Maxwell",
+  "You will never always be motivated, you must learn to be disciplined — Unknown",
+  "Don’t watch the clock; do what it does. Keep going — Sam Levenson",
+  "Fall seven times and stand up eight — Japanese Proverb",
+  "The pain you feel today will be the strength you feel tomorrow — Unknown",
+  "Small steps every day lead to big results — Unknown",
+  "Control your habits or they will control you — Unknown",
+  "A year from now you will wish you started today — Unknown",
+  "The best way to predict your future is to create it — Peter Drucker",
+  "Act as if what you do makes a difference. It does — William James",
+  "Push yourself because no one else is going to do it for you — Unknown",
+  "Great things never come from comfort zones — Unknown",
+  "Hard choices, easy life. Easy choices, hard life — Unknown",
+  "Discipline is choosing between what you want now and what you want most — Abraham Lincoln",
+  "Energy and persistence conquer all things — Benjamin Franklin",
+  "What we fear doing most is usually what we most need to do — Tim Ferriss",
+  "Start where you are. Use what you have. Do what you can — Arthur Ashe",
+  "Success doesn’t come from what you do occasionally, but what you do consistently — Unknown",
+  "You don’t have to be great to start, but you have to start to be great — Zig Ziglar",
+  "Difficult roads often lead to beautiful destinations — Unknown",
+  "Stay hard — David Goggins",
+  "No excuses — Unknown"
+];
 
-    let msg=document.getElementById("moodMsg");
+let lastQuoteIndex = -1;
 
-    if(val===2) msg.innerHTML="You're on a roll 🚀";
-    if(val===1) msg.innerHTML="It's a normal day — keep going";
-    if(val===0) msg.innerHTML="Tough day. Just take one small step";
+function changeQuote() {
+  let index;
+  do {
+    index = Math.floor(Math.random() * quotes.length);
+  } while (index === lastQuoteIndex);
 
-    draw();
-    generateAdvice();
+  lastQuoteIndex = index;
+  document.getElementById("quote").innerText = quotes[index];
 }
 
-function setStyle(btn,s){
-    document.querySelectorAll(".card:nth-child(4) button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    style=s;
-    generateAdvice();
+changeQuote();
+
+function successDay() {
+  streak++;
+  history.push(streak);
+  moods.push("good");
+  save();
+  drawChart();
 }
 
-function generateAdvice(){
-    let list=[];
-
-    if(style==="soft"){
-        list=[
-            "Take it slow — small steps matter 🌱",
-            "Rest for 5 minutes, you're not a machine",
-            "Just start, no pressure",
-            "You're already doing better than yesterday",
-            "Breathe — stress will pass",
-            "Focus on one task only"
-        ];
-    }
-
-    if(style==="strict"){
-        list=[
-            "Stop delaying. Start now.",
-            "Discipline beats motivation",
-            "You either control yourself or you don't",
-            "Pick one task. Finish it.",
-            "No mood? Doesn't matter.",
-            "Tired? Work slower, but don't stop"
-        ];
-    }
-
-    if(style==="real"){
-        list=[
-            "Do 5 minutes, then decide",
-            "Put your phone away — instant upgrade",
-            "You're not lazy, you're overloaded",
-            "Your brain wants easy — don't give it that",
-            "Start with a 3-minute timer",
-            "It's hard now, easier later"
-        ];
-    }
-
-    let box=document.getElementById("advice");
-    box.innerHTML="";
-
-    list.forEach(a=>{
-        box.innerHTML += "<div class='advice'>"+a+"</div>";
-    });
+function failDay() {
+  streak = 0;
+  history.push(0);
+  moods.push("bad");
+  save();
+  drawChart();
 }
 
-function draw(){
-    let c=document.getElementById("chart");
-    let ctx=c.getContext("2d");
+function setMood(mood) {
+  if (moods.length > 0) {
+    moods[moods.length - 1] = mood;
+  }
+  save();
+  drawChart();
+}
 
-    ctx.clearRect(0,0,c.width,c.height);
+function save() {
+  localStorage.setItem("streak", streak);
+  localStorage.setItem("history", JSON.stringify(history));
+  localStorage.setItem("moods", JSON.stringify(moods));
+  document.getElementById("streak").innerText = streak;
+}
 
+function getMoodColor(mood) {
+  switch(mood) {
+    case "good": return "#22c55e";
+    case "ok": return "#eab308";
+    case "angry": return "#ef4444";
+    case "tired": return "#3b82f6";
+    case "bad": return "#6b7280";
+    default: return "#22c55e";
+  }
+}
+
+function drawChart() {
+  let canvas = document.getElementById("chart");
+  let ctx = canvas.getContext("2d");
+
+  canvas.width = history.length * 40;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (history.length > 0) {
     ctx.beginPath();
-    ctx.moveTo(0,140);
+    ctx.moveTo(0, 200 - history[0]*10);
 
-    moods.forEach((m,i)=>{
-        let x=i*30;
-        let y=140-(m*40);
-        ctx.lineTo(x,y);
-    });
+    for (let i = 1; i < history.length; i++) {
+      ctx.lineTo(i * 40, 200 - history[i]*10);
+    }
 
+    ctx.strokeStyle = "#22c55e";
     ctx.stroke();
+
+    for (let i = 0; i < history.length; i++) {
+      ctx.beginPath();
+      ctx.arc(i * 40, 200 - history[i]*10, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = getMoodColor(moods[i]);
+      ctx.fill();
+    }
+  }
 }
 
-draw();
-generateAdvice();
+drawChart();
 </script>
 
 </body>
