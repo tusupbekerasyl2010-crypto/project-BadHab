@@ -1,240 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bad Habits Tracker</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>BadHab - Final Version</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
-.container {
-  padding: 20px;
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
 }
 
-h1 {
-  text-align: center;
+header{
+    width:100%;
+    padding:20px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
-.card {
-  background: #1e293b;
-  padding: 15px;
-  border-radius: 15px;
-  margin-bottom: 15px;
+.logo{
+    font-size:28px;
+    font-weight:700;
+    color:#38bdf8;
 }
 
-button {
-  padding: 10px;
-  margin: 5px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+nav{
+    display:flex;
+    gap:25px;
 }
 
-.success { background: #22c55e; }
-.fail { background: #ef4444; }
-.quote-btn { background: #3b82f6; }
-
-select {
-  padding: 10px;
-  border-radius: 10px;
-  width: 100%;
+nav a{
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
 }
 
-.chart-container {
-  overflow-x: auto;
+nav a:hover{
+    color:#38bdf8;
 }
 
-canvas {
-  background: #111827;
-  border-radius: 10px;
-  margin-top: 10px;
+.hero{
+    min-height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+    background:linear-gradient(to bottom right,#0f172a,#1e293b);
 }
 
-.mood button {
-  font-size: 20px;
+.hero-content h1{
+    font-size:70px;
+    margin-bottom:20px;
 }
+
+.hero-content p{
+    font-size:20px;
+    max-width:700px;
+    margin:auto;
+    opacity:0.8;
+    line-height:1.7;
+}
+
+.hero button{
+    margin-top:30px;
+    padding:15px 40px;
+    border:none;
+    border-radius:12px;
+    background:#38bdf8;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.hero button:hover{
+    transform:translateY(-3px);
+}
+
+.section{
+    padding:100px 8%;
+}
+
+.section-title{
+    font-size:42px;
+    margin-bottom:50px;
+    text-align:center;
+}
+
+.habits-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    padding:25px;
+    border-radius:20px;
+    transition:0.3s;
+    backdrop-filter:blur(10px);
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:#38bdf8;
+}
+
+.card h3{
+    margin-bottom:15px;
+    color:#38bdf8;
+}
+
+.card p{
+    opacity:0.8;
+    line-height:1.6;
+}
+
+.mood-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+}
+
+.mood{
+    background:#1e293b;
+    padding:18px 28px;
+    border-radius:14px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.mood:hover{
+    background:#38bdf8;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.stat-box{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.stat-box h2{
+    font-size:45px;
+    color:#38bdf8;
+}
+
+.chart-box{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:25px;
+    margin-top:50px;
+}
+
+.community{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.quote{
+    background:rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:18px;
+    border-left:5px solid #38bdf8;
+}
+
+.quote p{
+    line-height:1.8;
+    opacity:0.9;
+}
+
+.quote h4{
+    margin-top:20px;
+    color:#38bdf8;
+}
+
+footer{
+    padding:40px;
+    text-align:center;
+    opacity:0.7;
+}
+
+@media(max-width:768px){
+
+    header{
+        padding:20px;
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .hero-content h1{
+        font-size:45px;
+    }
+
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="container">
-  <h1>Bad Habits Tracker</h1>
+<header>
 
-  <div class="card">
-    <h3>Select Habit</h3>
-    <select id="habit">
-      <option>Smoking</option>
-      <option>Phone addiction</option>
-      <option>Fast food</option>
-      <option>Gaming</option>
-      <option>Sweets</option>
-      <option>Caffeine</option>
-      <option>Procrastination</option>
-    </select>
-  </div>
+<div class="logo">BadHab</div>
 
-  <div class="card">
-    <h3>Current streak: <span id="streak">0</span> days</h3>
-    <button class="success" onclick="successDay()">I resisted</button>
-    <button class="fail" onclick="failDay()">I failed</button>
-  </div>
+<nav>
+<a href="#home">Home</a>
+<a href="#habits">Habits</a>
+<a href="#moods">Mood</a>
+<a href="#progress">Progress</a>
+<a href="#community">Community</a>
+<a href="#">Development Process</a>
+</nav>
 
-  <div class="card mood">
-    <h3>How do you feel?</h3>
-    <button onclick="setMood('good')">😀</button>
-    <button onclick="setMood('ok')">😐</button>
-    <button onclick="setMood('angry')">😡</button>
-    <button onclick="setMood('tired')">😩</button>
-    <button onclick="setMood('bad')">😔</button>
-  </div>
+</header>
 
-  <div class="card">
-    <h3>Progress Chart</h3>
-    <div class="chart-container">
-      <canvas id="chart" height="200"></canvas>
-    </div>
-  </div>
+<section class="hero" id="home">
 
-  <div class="card">
-    <h3>Motivation</h3>
-    <p id="quote"></p>
-    <button class="quote-btn" onclick="changeQuote()">New Quote</button>
-  </div>
+<div class="hero-content">
+
+<h1>Fight Your Bad Habits</h1>
+
+<p>
+BadHab helps users track addictions, monitor emotions,
+build streaks, and improve their lives through support,
+progress tracking, and motivation.
+</p>
+
+<button>Start Recovery</button>
 
 </div>
 
+</section>
+
+<section class="section" id="habits">
+
+<h2 class="section-title">Popular Bad Habits</h2>
+
+<div class="habits-grid">
+
+<div class="card">
+<h3>Smoking</h3>
+<p>Track smoking addiction and reduce daily cigarette use.</p>
+</div>
+
+<div class="card">
+<h3>Social Media</h3>
+<p>Reduce doomscrolling and unhealthy screen time.</p>
+</div>
+
+<div class="card">
+<h3>Gaming Addiction</h3>
+<p>Manage excessive gaming and improve productivity.</p>
+</div>
+
+<div class="card">
+<h3>Junk Food</h3>
+<p>Build healthier eating habits and routines.</p>
+</div>
+
+<div class="card">
+<h3>Procrastination</h3>
+<p>Stay productive and avoid wasting time.</p>
+</div>
+
+<div class="card">
+<h3>Alcohol</h3>
+<p>Track recovery progress and healthier lifestyle changes.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="moods">
+
+<h2 class="section-title">Daily Mood Tracker</h2>
+
+<div class="mood-container">
+
+<div class="mood">😊 Happy</div>
+<div class="mood">😔 Sad</div>
+<div class="mood">😡 Angry</div>
+<div class="mood">😴 Tired</div>
+<div class="mood">🔥 Motivated</div>
+<div class="mood">😰 Stressed</div>
+
+</div>
+
+</section>
+
+<section class="section" id="progress">
+
+<h2 class="section-title">Recovery Progress</h2>
+
+<div class="stats">
+
+<div class="stat-box">
+<h2>47</h2>
+<p>Days Clean</p>
+</div>
+
+<div class="stat-box">
+<h2>91%</h2>
+<p>Motivation Level</p>
+</div>
+
+<div class="stat-box">
+<h2>532</h2>
+<p>Community Members</p>
+</div>
+
+</div>
+
+<div class="chart-box">
+<canvas id="progressChart"></canvas>
+</div>
+
+</section>
+
+<section class="section" id="community">
+
+<h2 class="section-title">Community Support</h2>
+
+<div class="community">
+
+<div class="quote">
+<p>
+“I stopped smoking for 43 days using BadHab.
+Seeing my progress every day kept me motivated.”
+</p>
+<h4>- Alex</h4>
+</div>
+
+<div class="quote">
+<p>
+“The mood tracker helped me understand why I relapse
+during stressful days.”
+</p>
+<h4>- Daniel</h4>
+</div>
+
+<div class="quote">
+<p>
+“BadHab feels like a real recovery platform.
+The community support motivates me every morning.”
+</p>
+<h4>- Sarah</h4>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+BadHab Final Version • 2026
+</footer>
+
 <script>
-let streak = Number(localStorage.getItem("streak")) || 0;
-let history = JSON.parse(localStorage.getItem("history")) || [];
-let moods = JSON.parse(localStorage.getItem("moods")) || [];
 
-document.getElementById("streak").innerText = streak;
+const ctx = document.getElementById('progressChart');
 
-const quotes = [
-  "Discipline equals freedom — Jocko Willink",
-  "We are what we repeatedly do — Aristotle",
-  "The only way out is through — Robert Frost",
-  "He who conquers himself is strongest — Confucius",
-  "It does not matter how slowly you go as long as you do not stop — Confucius",
-  "Success is the sum of small efforts repeated daily — Robert Collier",
-  "Do what is hard now so life can be easy later — Unknown",
-  "Your future depends on what you do today — Mahatma Gandhi",
-  "Motivation gets you going, discipline keeps you growing — John C. Maxwell",
-  "You will never always be motivated, you must learn to be disciplined — Unknown",
-  "Don’t watch the clock; do what it does. Keep going — Sam Levenson",
-  "Fall seven times and stand up eight — Japanese Proverb",
-  "The pain you feel today will be the strength you feel tomorrow — Unknown",
-  "Small steps every day lead to big results — Unknown",
-  "Control your habits or they will control you — Unknown",
-  "A year from now you will wish you started today — Unknown",
-  "The best way to predict your future is to create it — Peter Drucker",
-  "Act as if what you do makes a difference. It does — William James",
-  "Push yourself because no one else is going to do it for you — Unknown",
-  "Great things never come from comfort zones — Unknown",
-  "Hard choices, easy life. Easy choices, hard life — Unknown",
-  "Discipline is choosing between what you want now and what you want most — Abraham Lincoln",
-  "Energy and persistence conquer all things — Benjamin Franklin",
-  "What we fear doing most is usually what we most need to do — Tim Ferriss",
-  "Start where you are. Use what you have. Do what you can — Arthur Ashe",
-  "Success doesn’t come from what you do occasionally, but what you do consistently — Unknown",
-  "You don’t have to be great to start, but you have to start to be great — Zig Ziglar",
-  "Difficult roads often lead to beautiful destinations — Unknown",
-  "Stay hard — David Goggins",
-  "No excuses — Unknown"
-];
-
-let lastQuoteIndex = -1;
-
-function changeQuote() {
-  let index;
-  do {
-    index = Math.floor(Math.random() * quotes.length);
-  } while (index === lastQuoteIndex);
-
-  lastQuoteIndex = index;
-  document.getElementById("quote").innerText = quotes[index];
-}
-
-changeQuote();
-
-function successDay() {
-  streak++;
-  history.push(streak);
-  moods.push("good");
-  save();
-  drawChart();
-}
-
-function failDay() {
-  streak = 0;
-  history.push(0);
-  moods.push("bad");
-  save();
-  drawChart();
-}
-
-function setMood(mood) {
-  if (moods.length > 0) {
-    moods[moods.length - 1] = mood;
-  }
-  save();
-  drawChart();
-}
-
-function save() {
-  localStorage.setItem("streak", streak);
-  localStorage.setItem("history", JSON.stringify(history));
-  localStorage.setItem("moods", JSON.stringify(moods));
-  document.getElementById("streak").innerText = streak;
-}
-
-function getMoodColor(mood) {
-  switch(mood) {
-    case "good": return "#22c55e";
-    case "ok": return "#eab308";
-    case "angry": return "#ef4444";
-    case "tired": return "#3b82f6";
-    case "bad": return "#6b7280";
-    default: return "#22c55e";
-  }
-}
-
-function drawChart() {
-  let canvas = document.getElementById("chart");
-  let ctx = canvas.getContext("2d");
-
-  canvas.width = history.length * 40;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (history.length > 0) {
-    ctx.beginPath();
-    ctx.moveTo(0, 200 - history[0]*10);
-
-    for (let i = 1; i < history.length; i++) {
-      ctx.lineTo(i * 40, 200 - history[i]*10);
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [
+            'Week 1',
+            'Week 2',
+            'Week 3',
+            'Week 4',
+            'Week 5',
+            'Week 6',
+            'Week 7'
+        ],
+        datasets: [{
+            label: 'Recovery Progress',
+            data: [10,20,35,40,60,80,95],
+            borderWidth:3,
+            tension:0.4
+        }]
+    },
+    options: {
+        responsive:true,
+        plugins:{
+            legend:{
+                labels:{
+                    color:'white'
+                }
+            }
+        },
+        scales:{
+            x:{
+                ticks:{
+                    color:'white'
+                }
+            },
+            y:{
+                ticks:{
+                    color:'white'
+                }
+            }
+        }
     }
+});
 
-    ctx.strokeStyle = "#22c55e";
-    ctx.stroke();
-
-    for (let i = 0; i < history.length; i++) {
-      ctx.beginPath();
-      ctx.arc(i * 40, 200 - history[i]*10, 5, 0, 2 * Math.PI);
-      ctx.fillStyle = getMoodColor(moods[i]);
-      ctx.fill();
-    }
-  }
-}
-
-drawChart();
 </script>
 
 </body>
