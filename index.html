@@ -4,553 +4,201 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BadHab Final Version</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>BadHab Final System</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
 body{
+    margin:0;
+    font-family:Arial;
     background:#0f172a;
     color:white;
-    overflow-x:hidden;
 }
 
 header{
-    position:sticky;
-    top:0;
-    z-index:1000;
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:20px 7%;
-    background:rgba(15,23,42,0.95);
-    backdrop-filter:blur(10px);
-}
-
-.logo{
-    font-size:30px;
-    font-weight:700;
-    color:#38bdf8;
-}
-
-nav{
-    display:flex;
-    gap:25px;
-    flex-wrap:wrap;
+    padding:15px;
+    background:#111827;
+    position:sticky;
+    top:0;
 }
 
 nav a{
-    color:white;
-    text-decoration:none;
-    transition:0.3s;
-    font-weight:500;
-}
-
-nav a:hover{
-    color:#38bdf8;
-}
-
-.hero{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:40px;
-    background:linear-gradient(to bottom right,#0f172a,#1e293b);
-}
-
-.hero-content h1{
-    font-size:70px;
-    margin-bottom:20px;
-}
-
-.hero-content p{
-    max-width:750px;
-    margin:auto;
-    opacity:0.8;
-    line-height:1.8;
-    font-size:20px;
-}
-
-.hero button{
-    margin-top:35px;
-    padding:15px 40px;
-    border:none;
-    border-radius:14px;
-    background:#38bdf8;
-    color:white;
-    font-size:18px;
+    margin:0 10px;
     cursor:pointer;
-    transition:0.3s;
-}
-
-.hero button:hover{
-    transform:translateY(-5px);
+    color:white;
 }
 
 .section{
-    padding:100px 8%;
-}
-
-.section-title{
-    text-align:center;
-    font-size:42px;
-    margin-bottom:60px;
-}
-
-.habits-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-    gap:25px;
+    padding:50px;
 }
 
 .card{
-    background:rgba(255,255,255,0.05);
-    border-radius:20px;
-    padding:25px;
-    transition:0.3s;
-    border:1px solid rgba(255,255,255,0.08);
-}
-
-.card:hover{
-    transform:translateY(-8px);
-    border-color:#38bdf8;
-}
-
-.card h3{
-    margin-bottom:15px;
-    color:#38bdf8;
-}
-
-.card p{
-    line-height:1.7;
-    opacity:0.8;
-}
-
-.moods{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-}
-
-.mood{
-    padding:18px 30px;
+    padding:10px;
+    margin:10px;
     background:#1e293b;
-    border-radius:14px;
     cursor:pointer;
-    transition:0.3s;
+    display:inline-block;
 }
 
-.mood:hover{
+button{
+    padding:10px;
+    margin:5px;
+    cursor:pointer;
+}
+
+.active{
     background:#38bdf8;
 }
 
-.activeMood{
-    background:#38bdf8 !important;
-}
-
-.mood-result{
-    text-align:center;
-    margin-top:30px;
-    font-size:20px;
+#message{
+    margin-top:10px;
+    font-size:18px;
     color:#38bdf8;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
-}
-
-.stat-box{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:20px;
-    text-align:center;
-}
-
-.stat-box h2{
-    font-size:50px;
-    color:#38bdf8;
-}
-
-.chart-box{
-    margin-top:50px;
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:25px;
-}
-
-.controls{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    margin-bottom:30px;
-}
-
-.controls button{
-    padding:12px 24px;
-    border:none;
-    border-radius:12px;
-    background:#38bdf8;
-    color:white;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.controls button:hover{
-    transform:scale(1.05);
-}
-
-.community{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:25px;
-}
-
-.quote{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:20px;
-    border-left:5px solid #38bdf8;
-}
-
-.quote p{
-    line-height:1.8;
-    opacity:0.9;
-}
-
-.quote h4{
-    margin-top:20px;
-    color:#38bdf8;
-}
-
-footer{
-    padding:40px;
-    text-align:center;
-    opacity:0.7;
-}
-
-@media(max-width:768px){
-
-    .hero-content h1{
-        font-size:45px;
-    }
-
-    header{
-        flex-direction:column;
-        gap:15px;
-    }
-
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
-
-<div class="logo">BadHab</div>
+<div><b>BadHab</b></div>
 
 <nav>
-<a href="#home">Home</a>
-<a href="#habits">Habits</a>
-<a href="#moods">Mood</a>
-<a href="#progress">Progress</a>
-<a href="#community">Community</a>
+<a onclick="scrollTo('habits')">Habits</a>
+<a onclick="scrollTo('moods')">Mood</a>
+<a onclick="scrollTo('progress')">Progress</a>
+<a onclick="scrollTo('quotes')">Quotes</a>
 </nav>
 
 </header>
 
-<section class="hero" id="home">
+<div id="habits" class="section">
+<h2>Bad Habits</h2>
 
-<div class="hero-content">
+<div class="card" onclick="toggleHabit(this)">Smoking</div>
+<div class="card" onclick="toggleHabit(this)">Social Media</div>
+<div class="card" onclick="toggleHabit(this)">Gaming</div>
+<div class="card" onclick="toggleHabit(this)">Junk Food</div>
 
-<h1>Break Bad Habits</h1>
-
-<p>
-BadHab helps users fight addictions, track moods,
-improve mental health, and monitor progress through
-community support and recovery analytics.
-</p>
-
-<button onclick="scrollToHabits()">Start Journey</button>
-
+<p id="habitMsg"></p>
 </div>
 
-</section>
+<div id="moods" class="section">
+<h2>Mood Tracker</h2>
 
-<section class="section" id="habits">
+<button onclick="setMood(this, -10)">😡 Angry</button>
+<button onclick="setMood(this, -5)">😔 Sad</button>
+<button onclick="setMood(this, 0)">😐 Neutral</button>
+<button onclick="setMood(this, 5)">😊 Happy</button>
+<button onclick="setMood(this, 10)">🔥 Motivated</button>
 
-<h2 class="section-title">Bad Habits</h2>
-
-<div class="habits-grid">
-
-<div class="card">
-<h3>Smoking</h3>
-<p>Reduce smoking addiction and improve health.</p>
+<p id="moodText">Mood not selected</p>
 </div>
 
-<div class="card">
-<h3>Social Media</h3>
-<p>Stop doomscrolling and reduce screen time.</p>
+<div class="section">
+<h2>Did you relapse?</h2>
+
+<button onclick="relapse(true)">YES (reset streak)</button>
+<button onclick="relapse(false)">NO (good job)</button>
+
+<p id="relapseMsg"></p>
 </div>
 
-<div class="card">
-<h3>Gaming Addiction</h3>
-<p>Control excessive gaming and improve productivity.</p>
+<div id="progress" class="section">
+<h2>Progress Analytics</h2>
+
+<canvas id="chart"></canvas>
+
+<p id="streak">Streak: 0 days</p>
 </div>
 
-<div class="card">
-<h3>Junk Food</h3>
-<p>Build healthy eating habits and routines.</p>
-</div>
+<div id="quotes" class="section">
+<h2>Motivational Quotes</h2>
 
-<div class="card">
-<h3>Alcohol</h3>
-<p>Track recovery progress and mental improvements.</p>
-</div>
-
-<div class="card">
-<h3>Procrastination</h3>
-<p>Stay productive and focused every day.</p>
-</div>
-
-<div class="card">
-<h3>Oversleeping</h3>
-<p>Improve sleep schedule and daily energy.</p>
-</div>
-
-<div class="card">
-<h3>Anger</h3>
-<p>Control emotional reactions and stress.</p>
-</div>
+<p>“The best way to get started is to quit talking and begin doing.” — Walt Disney</p>
+<p>“Discipline is choosing between what you want now and what you want most.” — Abraham Lincoln</p>
+<p>“You don’t have to be extreme, just consistent.” — Unknown</p>
 
 </div>
-
-</section>
-
-<section class="section" id="moods">
-
-<h2 class="section-title">Mood Tracker</h2>
-
-<div class="moods">
-
-<div class="mood" onclick="selectMood(this,'Happy 😊')">Happy 😊</div>
-<div class="mood" onclick="selectMood(this,'Motivated 🔥')">Motivated 🔥</div>
-<div class="mood" onclick="selectMood(this,'Tired 😴')">Tired 😴</div>
-<div class="mood" onclick="selectMood(this,'Sad 😔')">Sad 😔</div>
-<div class="mood" onclick="selectMood(this,'Angry 😡')">Angry 😡</div>
-<div class="mood" onclick="selectMood(this,'Stressed 😰')">Stressed 😰</div>
-
-</div>
-
-<div class="mood-result" id="moodResult">
-Choose your mood today
-</div>
-
-</section>
-
-<section class="section" id="progress">
-
-<h2 class="section-title">Progress Analytics</h2>
-
-<div class="stats">
-
-<div class="stat-box">
-<h2 id="days">47</h2>
-<p>Days Clean</p>
-</div>
-
-<div class="stat-box">
-<h2>91%</h2>
-<p>Motivation</p>
-</div>
-
-<div class="stat-box">
-<h2>532</h2>
-<p>Community Users</p>
-</div>
-
-</div>
-
-<div class="chart-box">
-
-<div class="controls">
-<button onclick="previousData()">Previous</button>
-<button onclick="nextData()">Next</button>
-</div>
-
-<canvas id="progressChart"></canvas>
-
-</div>
-
-</section>
-
-<section class="section" id="community">
-
-<h2 class="section-title">User Feedback</h2>
-
-<div class="community">
-
-<div class="quote">
-
-<p>
-"The schedule can't be viewed further, there's little mood
-and few bad habits, but in principle it's fine."
-</p>
-
-<h4>- Zhanabay Baiet</h4>
-
-</div>
-
-<div class="quote">
-
-<p>
-"This app is good right now because many schoolchildren
-and teenagers are struggling with depression, and I'd
-like to add some bad habits and some of my own features.
-I liked the coaching style the most."
-</p>
-
-<h4>- Saparov Khamza</h4>
-
-</div>
-
-</div>
-
-</section>
-
-<footer>
-BadHab Final Version • 2026
-</footer>
 
 <script>
 
-function scrollToHabits(){
-    document.getElementById("habits")
-    .scrollIntoView({behavior:"smooth"});
-}
+let moodValue = 0;
+let streak = 0;
 
-function selectMood(element,mood){
-
-    document.querySelectorAll(".mood")
-    .forEach(m=>{
-        m.classList.remove("activeMood");
-    });
-
-    element.classList.add("activeMood");
-
-    document.getElementById("moodResult")
-    .innerText = "Today's mood: " + mood;
-}
-
-const chartData = [
-    [10,20,30,40,50,60,70],
-    [15,28,35,48,62,75,90],
-    [5,18,25,45,55,72,95]
-];
-
-let currentIndex = 0;
-
-const ctx = document
-.getElementById('progressChart');
-
-const progressChart = new Chart(ctx,{
-
-    type:'line',
-
+let chart = new Chart(document.getElementById("chart"),{
+    type:"line",
     data:{
-        labels:[
-            'Week 1',
-            'Week 2',
-            'Week 3',
-            'Week 4',
-            'Week 5',
-            'Week 6',
-            'Week 7'
-        ],
-
+        labels:[],
         datasets:[{
-            label:'Recovery Progress',
-            data:chartData[currentIndex],
-            borderWidth:3,
-            tension:0.4
+            label:"Progress",
+            data:[],
+            borderColor:"#38bdf8"
         }]
-    },
-
-    options:{
-        responsive:true,
-
-        plugins:{
-            legend:{
-                labels:{
-                    color:'white'
-                }
-            }
-        },
-
-        scales:{
-            x:{
-                ticks:{
-                    color:'white'
-                }
-            },
-
-            y:{
-                ticks:{
-                    color:'white'
-                }
-            }
-        }
     }
-
 });
 
-function nextData(){
+function setMood(btn,value){
+    moodValue = value;
 
-    currentIndex++;
+    document.querySelectorAll("button").forEach(b=>{
+        b.classList.remove("active");
+    });
 
-    if(currentIndex >= chartData.length){
-        currentIndex = 0;
-    }
+    btn.classList.add("active");
 
-    progressChart.data.datasets[0].data =
-    chartData[currentIndex];
+    document.getElementById("moodText").innerText =
+    "Mood effect: " + value;
 
-    progressChart.update();
+    addProgress();
 }
 
-function previousData(){
-
-    currentIndex--;
-
-    if(currentIndex < 0){
-        currentIndex = chartData.length - 1;
+function addProgress(){
+    if(chart.data.labels.length >= 7){
+        chart.data.labels.shift();
+        chart.data.datasets[0].data.shift();
     }
 
-    progressChart.data.datasets[0].data =
-    chartData[currentIndex];
+    let last = chart.data.datasets[0].data.slice(-1)[0] || 50;
+    let newValue = last + moodValue;
 
-    progressChart.update();
+    chart.data.labels.push("Day");
+    chart.data.datasets[0].data.push(newValue);
+
+    chart.update();
+}
+
+function relapse(status){
+    if(status){
+        streak = 0;
+        document.getElementById("relapseMsg").innerText =
+        "You relapsed. Streak reset.";
+    }else{
+        streak++;
+        document.getElementById("relapseMsg").innerText =
+        "Good job! Keep going 🔥";
+    }
+
+    document.getElementById("streak").innerText =
+    "Streak: " + streak + " days";
+}
+
+function toggleHabit(el){
+    el.classList.toggle("active");
+
+    document.getElementById("habitMsg").innerText =
+    "Habit updated ✔";
+}
+
+function scrollTo(id){
+    document.getElementById(id)
+    .scrollIntoView({behavior:"smooth"});
 }
 
 </script>
