@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BadHab Final System</title>
+<title>BadHab Final</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -12,56 +12,77 @@
 
 body{
     margin:0;
-    font-family:Arial;
-    background:#0f172a;
+    font-family:Poppins,Arial;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
     color:white;
 }
 
 header{
     display:flex;
     justify-content:space-between;
-    padding:15px;
-    background:#111827;
+    padding:18px 40px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
     position:sticky;
     top:0;
 }
 
 nav a{
-    margin:0 10px;
-    cursor:pointer;
+    margin:0 12px;
     color:white;
+    text-decoration:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#38bdf8;
 }
 
 .section{
-    padding:50px;
+    padding:60px;
 }
 
 .card{
-    padding:10px;
+    padding:12px;
     margin:10px;
-    background:#1e293b;
+    background:rgba(255,255,255,0.08);
+    border-radius:12px;
     cursor:pointer;
     display:inline-block;
 }
 
-button{
-    padding:10px;
-    margin:5px;
-    cursor:pointer;
-}
-
 .active{
-    background:#38bdf8;
+    background:#38bdf8 !important;
 }
 
-#message{
-    margin-top:10px;
+button{
+    padding:10px 15px;
+    margin:5px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#38bdf8;
+    color:white;
+}
+
+.box{
+    background:rgba(255,255,255,0.06);
+    padding:20px;
+    border-radius:16px;
+    margin-top:15px;
+}
+
+h2{
+    margin-bottom:15px;
+}
+
+#quote{
     font-size:18px;
-    color:#38bdf8;
+    line-height:1.6;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -70,67 +91,116 @@ button{
 <div><b>BadHab</b></div>
 
 <nav>
-<a onclick="scrollTo('habits')">Habits</a>
-<a onclick="scrollTo('moods')">Mood</a>
-<a onclick="scrollTo('progress')">Progress</a>
-<a onclick="scrollTo('quotes')">Quotes</a>
+<a onclick="go('habits')">Habits</a>
+<a onclick="go('moods')">Mood</a>
+<a onclick="go('progress')">Progress</a>
+<a onclick="go('quotes')">Quotes</a>
 </nav>
-
 </header>
 
+<!-- HABITS -->
 <div id="habits" class="section">
 <h2>Bad Habits</h2>
 
-<div class="card" onclick="toggleHabit(this)">Smoking</div>
-<div class="card" onclick="toggleHabit(this)">Social Media</div>
-<div class="card" onclick="toggleHabit(this)">Gaming</div>
-<div class="card" onclick="toggleHabit(this)">Junk Food</div>
+<div class="card" onclick="toggle(this)">Smoking</div>
+<div class="card" onclick="toggle(this)">Social Media</div>
+<div class="card" onclick="toggle(this)">Gaming</div>
+<div class="card" onclick="toggle(this)">Junk Food</div>
 
-<p id="habitMsg"></p>
+<div class="box" id="adviceBox">
+Advice: Start small. Reduce one habit at a time.
+</div>
 </div>
 
+<!-- MOOD -->
 <div id="moods" class="section">
 <h2>Mood Tracker</h2>
 
-<button onclick="setMood(this, -10)">😡 Angry</button>
-<button onclick="setMood(this, -5)">😔 Sad</button>
-<button onclick="setMood(this, 0)">😐 Neutral</button>
-<button onclick="setMood(this, 5)">😊 Happy</button>
-<button onclick="setMood(this, 10)">🔥 Motivated</button>
+<button onclick="mood(this,-10)">Angry 😡</button>
+<button onclick="mood(this,-5)">Sad 😔</button>
+<button onclick="mood(this,0)">Neutral 😐</button>
+<button onclick="mood(this,5)">Happy 😊</button>
+<button onclick="mood(this,10)">Motivated 🔥</button>
 
-<p id="moodText">Mood not selected</p>
+<div class="box" id="moodText">Mood not selected</div>
 </div>
 
-<div class="section">
-<h2>Did you relapse?</h2>
-
-<button onclick="relapse(true)">YES (reset streak)</button>
-<button onclick="relapse(false)">NO (good job)</button>
-
-<p id="relapseMsg"></p>
-</div>
-
+<!-- PROGRESS -->
 <div id="progress" class="section">
 <h2>Progress Analytics</h2>
 
 <canvas id="chart"></canvas>
 
-<p id="streak">Streak: 0 days</p>
+<div class="box">
+Streak: <span id="streak">0</span> days
 </div>
 
-<div id="quotes" class="section">
-<h2>Motivational Quotes</h2>
+<div class="box">
+<button onclick="relapse(true)">I relapsed</button>
+<button onclick="relapse(false)">I stayed strong</button>
 
-<p>“The best way to get started is to quit talking and begin doing.” — Walt Disney</p>
-<p>“Discipline is choosing between what you want now and what you want most.” — Abraham Lincoln</p>
-<p>“You don’t have to be extreme, just consistent.” — Unknown</p>
+<div id="relapseMsg"></div>
+</div>
+</div>
+
+<!-- QUOTES -->
+<div id="quotes" class="section">
+<h2>Motivation</h2>
+
+<div class="box">
+<p id="quote"></p>
+<button onclick="nextQuote()">Next Quote</button>
+</div>
 
 </div>
 
 <script>
 
-let moodValue = 0;
 let streak = 0;
+let moodValue = 0;
+
+const quotes = [
+"Discipline is choosing what you want most over what you want now.",
+"The pain of discipline is better than the pain of regret.",
+"You don’t need motivation, you need consistency.",
+"Small steps every day lead to big change."
+];
+
+let quoteIndex = 0;
+
+document.getElementById("quote").innerText = quotes[0];
+
+function nextQuote(){
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+    document.getElementById("quote").innerText = quotes[quoteIndex];
+}
+
+function go(id){
+    document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+function toggle(el){
+    el.classList.toggle("active");
+
+    document.getElementById("adviceBox").innerText =
+    "Advice: Focus on breaking one habit at a time, not all at once.";
+}
+
+function mood(btn,value){
+
+    moodValue = value;
+
+    document.querySelectorAll("button").forEach(b=>{
+        b.classList.remove("active");
+    });
+
+    btn.classList.add("active");
+
+    document.getElementById("moodText").innerText =
+    "Mood impact: " + value;
+
+    updateChart();
+}
 
 let chart = new Chart(document.getElementById("chart"),{
     type:"line",
@@ -144,26 +214,7 @@ let chart = new Chart(document.getElementById("chart"),{
     }
 });
 
-function setMood(btn,value){
-    moodValue = value;
-
-    document.querySelectorAll("button").forEach(b=>{
-        b.classList.remove("active");
-    });
-
-    btn.classList.add("active");
-
-    document.getElementById("moodText").innerText =
-    "Mood effect: " + value;
-
-    addProgress();
-}
-
-function addProgress(){
-    if(chart.data.labels.length >= 7){
-        chart.data.labels.shift();
-        chart.data.datasets[0].data.shift();
-    }
+function updateChart(){
 
     let last = chart.data.datasets[0].data.slice(-1)[0] || 50;
     let newValue = last + moodValue;
@@ -174,31 +225,19 @@ function addProgress(){
     chart.update();
 }
 
-function relapse(status){
-    if(status){
+function relapse(val){
+
+    if(val){
         streak = 0;
         document.getElementById("relapseMsg").innerText =
-        "You relapsed. Streak reset.";
+        "You relapsed. Restart from zero.";
     }else{
         streak++;
         document.getElementById("relapseMsg").innerText =
-        "Good job! Keep going 🔥";
+        "Good job. Keep going 🔥";
     }
 
-    document.getElementById("streak").innerText =
-    "Streak: " + streak + " days";
-}
-
-function toggleHabit(el){
-    el.classList.toggle("active");
-
-    document.getElementById("habitMsg").innerText =
-    "Habit updated ✔";
-}
-
-function scrollTo(id){
-    document.getElementById(id)
-    .scrollIntoView({behavior:"smooth"});
+    document.getElementById("streak").innerText = streak;
 }
 
 </script>
