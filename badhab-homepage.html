@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BadHab Homepage</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:#111827;
+    position:sticky;
+    top:0;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    color:#38bdf8;
+}
+
+nav{
+    display:flex;
+    gap:20px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#38bdf8;
+}
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+    background:linear-gradient(to bottom right,#0f172a,#1e293b);
+}
+
+.hero h1{
+    font-size:70px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    max-width:800px;
+    margin:auto;
+    line-height:1.8;
+    opacity:0.8;
+    font-size:20px;
+}
+
+.hero button{
+    margin-top:30px;
+    padding:15px 35px;
+    border:none;
+    border-radius:12px;
+    background:#38bdf8;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.section{
+    padding:90px 8%;
+}
+
+.title{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:60px;
+}
+
+.timeline{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border-radius:20px;
+    padding:25px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.card h2{
+    color:#38bdf8;
+    margin-bottom:15px;
+}
+
+.card p{
+    line-height:1.8;
+    opacity:0.9;
+}
+
+img{
+    width:100%;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+.feedback{
+    margin-top:20px;
+    background:#1e293b;
+    padding:15px;
+    border-radius:12px;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#38bdf8;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+}
+
+.reflection{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    line-height:1.9;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    opacity:0.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">BadHab</div>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#process">Development Process</a>
+<a href="#reflection">Reflection</a>
+</nav>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+<div>
+
+<h1>BadHab</h1>
+
+<p>
+BadHab is a project designed to help teenagers and students
+fight bad habits, improve mental health, track moods,
+and stay motivated through progress analytics and advice systems.
+</p>
+
+<a href="https://tusupbekerasyl2010-crypto.github.io/project-BadHab/" target="_blank">
+<button>Open Final Product</button>
+</a>
+
+</div>
+
+</section>
+
+<!-- DEVELOPMENT PROCESS -->
+
+<section class="section" id="process">
+
+<h1 class="title">Development Process</h1>
+
+<div class="timeline">
+
+<!-- ALPHA -->
+
+<div class="card">
+
+<h2>Alpha Version</h2>
+
+<img src="940E0A38-AB90-48B3-91F3-FD7F47B8469B.jpeg">
+
+<p>
+The alpha version focused on the basic idea of the project.
+Users could select habits, moods, relapse status,
+and receive advice. The design was simple and mobile-focused.
+</p>
+
+<div class="feedback">
+
+<h3>Sponsor Feedback</h3>
+
+<p>
+The sponsor suggested improving the amount of habits,
+adding more moods, and making the progress system more interactive.
+</p>
+
+<a class="btn"
+href="https://youtu.be/etYG_QFkdM0?feature=shared"
+target="_blank">
+Watch Alpha Feedback
+</a>
+
+</div>
+
+</div>
+
+<!-- BETA -->
+
+<div class="card">
+
+<h2>Beta Version</h2>
+
+<p>
+The beta version improved both design and functionality.
+A progress analytics graph was added, along with better navigation,
+more habits, mood tracking, relapse systems, and motivational sections.
+</p>
+
+<div class="feedback">
+
+<h3>Sponsor Feedback</h3>
+
+<p>
+The sponsor appreciated the new graph system,
+improved structure, and coaching style.
+However, they recommended adding more interaction
+and improving the design further.
+</p>
+
+<a class="btn"
+href="https://youtube.com/shorts/re_Gai2lPw0?si=FLH4jRVqxQ9S0AtL"
+target="_blank">
+Watch Beta Feedback
+</a>
+
+</div>
+
+<a class="btn"
+href="https://tusupbekerasyl2010-crypto.github.io/project-BadHab/"
+target="_blank">
+Open Beta Version
+</a>
+
+</div>
+
+<!-- FINAL -->
+
+<div class="card">
+
+<h2>Final Version</h2>
+
+<p>
+The final version combines functionality and improved UI.
+Interactive mood systems now affect the progress graph,
+users can track relapses, receive motivational quotes,
+and interact with habit systems dynamically.
+</p>
+
+<div class="feedback">
+
+<h3>Main Improvements</h3>
+
+<p>
+• Interactive graph system<br>
+• Mood-based analytics<br>
+• Relapse tracker<br>
+• Better navigation<br>
+• Improved advice system<br>
+• Modernized design
+</p>
+
+</div>
+
+<a class="btn"
+href="https://tusupbekerasyl2010-crypto.github.io/project-BadHab/"
+target="_blank">
+Open Final Product
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- REFLECTION -->
+
+<section class="section" id="reflection">
+
+<h1 class="title">Final Reflection</h1>
+
+<div class="reflection">
+
+<p>
+<b>1. What improved the most from Alpha to Final?</b><br><br>
+
+The design and functionality have improved significantly.
+Comparing the two projects, many systems were added and changed,
+especially the progress analytics graph that was not present
+in the alpha version.
+</p>
+
+<br>
+
+<p>
+<b>2. What feedback was most useful?</b><br><br>
+
+The most useful feedback came from our sponsor because
+they paid special attention to the project and evaluated
+every important detail carefully.
+</p>
+
+<br>
+
+<p>
+<b>3. What would you still improve?</b><br><br>
+
+We would improve the design further by adding more colors,
+better visual effects, and a more modern interface.
+</p>
+
+<br>
+
+<p>
+<b>4. Biggest challenge</b><br><br>
+
+The biggest challenge was combining design and functionality
+while keeping the application easy to use.
+</p>
+
+<br>
+
+<p>
+<b>5. What skill improved the most?</b><br><br>
+
+Frontend development and UI/UX design improved the most
+during this project.
+</p>
+
+<br>
+
+<p>
+<b>6. What did you learn?</b><br><br>
+
+We learned how feedback changes product development,
+how to improve user experience,
+and how to develop interactive web applications.
+</p>
+
+</div>
+
+</section>
+
+<footer>
+BadHab Homepage • Final Summative Assessment
+</footer>
+
+</body>
+</html>
